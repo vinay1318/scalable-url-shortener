@@ -1,6 +1,6 @@
 # Functional Requirements
 
-1. **Shorten URL**
+**1. Shorten URL**
 
 Description: The system shall allow users to shorten a long URL into a unique, compact URL.
 

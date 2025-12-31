@@ -15,6 +15,7 @@
   Redirect operation should be read-optimized and faster than write operations.
 
 
+
 2️⃣ **Availability & Reliability Requirements**: The service should be highly available and resilient to failures.
 
   Availability target: 99.9% uptime (excluding planned maintenance)
@@ -53,6 +54,8 @@
 
    Rationale:
    Redirect traffic grows faster than URL creation. The system must scale reads efficiently without impacting latency.
+
+
 
 4️⃣ **Consistency Expectations**
 

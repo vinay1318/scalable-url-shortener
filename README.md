@@ -1,0 +1,1 @@
+The redirect service uses HTTP 302 to ensure real-time analytics collection and dynamic destination control.

@@ -87,6 +87,27 @@ All metrics are treated as **Service Level Objectives (SLOs)** , guide design, s
   Ensures predictable and secure behavior.
 
 ---
+### **5. URL Creation Latency**
+
+#### Redirect Accuracy
+- **Definition:** Time taken to generate a short URL and persist its mapping to the database.
+- **Target:**  
+  p95 latency ≤ 200 ms.
+- **Measurement:**  
+  Captured using Spring Boot Actuator (`http.server.requests`) for the URL creation endpoint.
+- **Reason:**  
+  URL creation is less frequent than redirects, but it must remain responsive to ensure good user experience.
+
+
+#### Expiry Handling
+- **Definition:** Behavior of expired short URLs.
+- **Target:**  
+  Expired URLs must not redirect and should return 410 Gone error.
+- **Reason:**  
+  Ensures predictable and secure behavior.
+
+---
+
 
 ### Monitoring and Validation
 - Metrics are exposed using **Spring Boot Actuator**.

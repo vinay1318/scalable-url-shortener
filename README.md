@@ -1,6 +1,5 @@
-**The redirect service uses HTTP 302 to ensure real-time analytics collection and dynamic destination control.**
 
-# ****## 📊 Success Metrics****
+# **** 📊 Success Metrics****
 
 This section defines how the success of the URL Shortener service is measured.
 All metrics are treated as **Service Level Objectives (SLOs)** , guide design, scalability, and reliability decisions.
@@ -115,5 +114,9 @@ All metrics are treated as **Service Level Objectives (SLOs)** , guide design, s
     - `/actuator/health`
     - `/actuator/metrics`
 - Percentile-based latency tracking is enabled for realistic performance analysis.
+
+
+**Note:**
+The redirect service uses HTTP 302 to ensure real-time analytics collection and dynamic destination control.
 
 

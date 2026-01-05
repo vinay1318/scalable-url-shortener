@@ -1,5 +1,5 @@
 
-# **** 📊 Success Metrics****
+#  📊 Success Metrics
 
 This section defines how the success of the URL Shortener service is measured.
 All metrics are treated as **Service Level Objectives (SLOs)** , guide design, scalability, and reliability decisions.

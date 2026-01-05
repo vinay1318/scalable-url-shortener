@@ -119,4 +119,12 @@ All metrics are treated as **Service Level Objectives (SLOs)** , guide design, s
 **Note:**
 The redirect service uses HTTP 302 to ensure real-time analytics collection and dynamic destination control.
 
+### Traffic & Load Assumptions
+
+- Read-to-write ratio: 95:5 (redirects vs URL creation)
+- Average traffic: 1,000 requests per second
+- Peak traffic: Up to 5× average during spikes
+- Redirects are significantly more frequent than URL creation
+
+
 

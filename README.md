@@ -128,3 +128,30 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 
 
 
+# **Technology Stack**
+
+### Backend
+- **Framework:** Spring Boot (Java)
+- **Reason:** Provides rapid REST API development, built-in validation, caching, and production-ready features such as metrics and health checks.
+
+---
+
+### Database
+- **Choice:** MySQL
+- **Reason:** Ensures strong consistency and durability for URL mappings. Supports indexing for fast lookups and ACID compliance ensures correctness. Data stored includes short URL → long URL mappings, creation time, and expiry time.
+
+---
+
+### Cache
+- **Choice:** Redis
+- **Reason:** Redirect traffic is read-heavy. Redis provides low-latency in-memory caching and supports TTL for expiring short URLs, reducing database load.
+
+---
+
+### Infrastructure
+- **Deployment:** Docker-ready, cloud-compatible
+- **Reason:** Enables consistent environments and supports future horizontal scaling.
+
+
+
+

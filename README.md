@@ -155,3 +155,30 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 
 
 
+# **Architecture Diagram**
+
+       +-----------------+
+       |     Client      |
+       +--------+--------+
+                |
+        POST /shorten / GET /{shortCode}
+                |
+       +--------v--------+
+       |  Spring Boot    |
+       |  REST APIs      |
+       +--------+--------+
+                |
+        +-------+-------+
+        |               |
++----v----+     +----v----+
+|  Redis  |     |  MySQL  |
+|  Cache  |     | Database|
++----+----+     +---------+
+|               |
+(Read-heavy)     (Persistent storage)
+
+
+
+
+
+

@@ -130,7 +130,7 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 
 # **Technology Stack**
 
----
+
 
 ### Backend
 - **Framework:** Spring Boot (Java)

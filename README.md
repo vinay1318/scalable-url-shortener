@@ -154,8 +154,8 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 
 
 
-
 # **Architecture Diagram**
+
 
        +-----------------+
        |     Client      |
@@ -170,12 +170,14 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
                 |
         +-------+-------+
         |               |
-+----v----+     +----v----+
-|  Redis  |     |  MySQL  |
-|  Cache  |     | Database|
-+----+----+     +---------+
-|               |
-(Read-heavy)     (Persistent storage)
+     +----v----+     +----v----+
+     |  Redis  |     |  MySQL  |
+     |  Cache  |     | Database|
+     +----+----+     +---------+
+       |               |
+    (Read-heavy)     (Persistent storage)
+
+   
 
 
 

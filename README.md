@@ -126,7 +126,7 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 - Peak traffic: Up to 5× average during spikes
 - Redirects are significantly more frequent than URL creation
 
-
+---
 
 # **Technology Stack**
 

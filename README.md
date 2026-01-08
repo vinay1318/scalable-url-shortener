@@ -152,7 +152,7 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 - **Deployment:** Docker-ready, cloud-compatible
 - **Reason:** Enables consistent environments and supports future horizontal scaling.
 
-
+---
 
 # **Architecture Diagram**
 

@@ -130,6 +130,8 @@ The redirect service uses HTTP 302 to ensure real-time analytics collection and 
 
 # **Technology Stack**
 
+---
+
 ### Backend
 - **Framework:** Spring Boot (Java)
 - **Reason:** Provides rapid REST API development, built-in validation, caching, and production-ready features such as metrics and health checks.

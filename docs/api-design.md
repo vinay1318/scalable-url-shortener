@@ -8,9 +8,6 @@
 | GET    | /health                  | None               | OK                     | Verifies service is running        |
 
 
-
-
-
 # API Contracts
 
 ## 1. Create Short URL
@@ -256,3 +253,16 @@ The following paths are reserved and cannot be generated as short codes:
 - /health
 - /analytics
 - /shorten
+
+
+
+### Short Code Strategy
+
+**Strategy chosen:**
+We use a **database-generated unique ID + Base62 encoding** to generate short codes. The database ID guarantees uniqueness, while Base62 converts the numeric ID into a compact, URL-friendly representation.
+
+**Collision handling:**
+Since each database ID is unique and Base62 provides a deterministic one-to-one encoding, different IDs cannot produce the same short code. Therefore, no separate collision-resolution mechanism is required.
+
+**Reasoning:**
+This approach is simple, deterministic, efficient, and scalable. It avoids the collision checks required by random or hash-based approaches while producing significantly shorter URLs than exposing the numeric database ID directly.

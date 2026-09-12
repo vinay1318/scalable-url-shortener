@@ -20,10 +20,8 @@
 
   Availability target: 99.9% uptime (excluding planned maintenance)
 
-  Fault tolerance:
-      Service should tolerate Instance failures,Cache node failures,Graceful degradation
-                
-  In case of analytics subsystem failure, redirect must still work
+  Fault tolerance: Service should tolerate Instance failures,Cache node failures,Graceful degradation.In case of analytics 
+  subsystem failure, redirect must still work
 
   Data durability: Short URL mappings must not be lost after creation.
 

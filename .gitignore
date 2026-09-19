@@ -1,8 +1,18 @@
 HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+### Environment / Secrets ###
+.env
+.env.*
+!.env.example
+
+### Logs ###
+*.log
+
+### macOS ###
+.DS_Store
 
 ### STS ###
 .apt_generated
@@ -14,7 +24,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -31,3 +41,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+src/main/resources/notes.txt

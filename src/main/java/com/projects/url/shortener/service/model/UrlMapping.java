@@ -3,6 +3,8 @@ package com.projects.url.shortener.service.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name="urlmapping")
@@ -16,6 +18,9 @@ public class UrlMapping {
 
     @Column(name="long_url",nullable = false)
     private String longUrl;
+
+    @Column(name="expires_at")
+    private LocalDateTime expiresAt;
 
 
 

@@ -6,13 +6,18 @@ public class urlValidator {
 
     public boolean isValidUrl(String url){
 
-        URI uri = URI.create(url);
-        String uriScheme = uri.getScheme();
-        String uriHost = uri.getHost();
-        String uriPath = uri.getPath();
+       try{
+           URI uri = URI.create(url);
+           String uriScheme = uri.getScheme();
+           String uriHost = uri.getHost();
+           //String uriPath = uri.getPath();
 
-        return true;
-    }
+           return validUriScheme(uriScheme) && validUriHost(uriHost);
+           } catch (IllegalArgumentException ex){
+             return false;
+           }
+       }
+
 
     private  boolean validUriScheme(String uriScheme){
 
@@ -20,14 +25,12 @@ public class urlValidator {
 
     }
 
+    private boolean validUriHost(String uriHost){
 
-
-
-
-
-
-
-
-
-
+        if(uriHost != null && !uriHost.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

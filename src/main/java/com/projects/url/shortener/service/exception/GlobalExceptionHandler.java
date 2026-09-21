@@ -24,8 +24,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response);
 
-
-
-
     }
+
+    @ExceptionHandler(InvalidUrlException.class)
+    public ResponseEntity<Map<String,Object>> handleInvalidUrlException(InvalidUrlException exception){
+
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("status",HttpStatus.BAD_REQUEST.value());
+        response.put("error","Bad Request");
+        response.put("message",exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
 }

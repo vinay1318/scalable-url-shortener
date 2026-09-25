@@ -1,5 +1,8 @@
 package com.projects.url.shortener.service.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Base62Encoder {
 
     private static final String BASE62_CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

@@ -1,6 +1,6 @@
 package com.projects.url.shortener.service.validation;
 
-import lombok.Data;
+
 import org.springframework.stereotype.Component;
 
 import java.net.URI;

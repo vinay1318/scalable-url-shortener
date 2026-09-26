@@ -30,7 +30,11 @@ public class UrlValidator {
 
     private  boolean validUriScheme(String uriScheme){
 
-        return "https".equals(uriScheme) || "http".equals(uriScheme);
+        if (uriScheme == null){
+            return false;
+        }
+
+        return "https".equalsIgnoreCase(uriScheme) || "http".equalsIgnoreCase(uriScheme);
 
     }
 

@@ -14,6 +14,7 @@ public class UrlNormalization {
         String uriPath = uri.getPath();
         String uriQuery = uri.getQuery();
         String uriFragment = uri.getFragment();
+        int uriPort = uri.getPort();
 
         uriScheme = uriScheme.toLowerCase();
         uriHost = uriHost.toLowerCase();
@@ -21,8 +22,15 @@ public class UrlNormalization {
         normalizedUrl
                 .append(uriScheme)
                 .append("://" )
-                .append(uriHost)
-                .append(uriPath);
+                .append(uriHost);
+
+        if(uriPort != -1){
+            normalizedUrl.append(uriPort);
+
+        }
+
+        normalizedUrl.append(uriPath);
+
 
         if (uriQuery!=null) {
 

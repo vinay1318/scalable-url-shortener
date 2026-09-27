@@ -22,6 +22,9 @@ public class UrlMapping {
     @Column(name="expires_at")
     private LocalDateTime expiresAt;
 
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
+
 
 
 

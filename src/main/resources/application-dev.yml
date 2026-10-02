@@ -3,13 +3,22 @@ spring:
     activate:
       on-profile: dev
 
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
 server:
   port: 8080
 
 logging:
   level:
     root: INFO
-    com.vinay.urlshortener: DEBUG
+    com.projects.url.shortener.service: DEBUG
 
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"

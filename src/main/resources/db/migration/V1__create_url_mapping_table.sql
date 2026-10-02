@@ -1,9 +1,10 @@
 CREATE TABLE url_mapping (
 
     id BIGINT NOT NULL  AUTO_INCREMENT PRIMARY KEY,
-    short_code VARCHAR(16) UNIQUE,
+    short_code VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin UNIQUE,
     long_url VARCHAR(2048) NOT NULL,
     expires_at DATETIME,
-    created_at DATETIME,
-    updated_at DATETIME
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_expires_at(expires_at)
 );

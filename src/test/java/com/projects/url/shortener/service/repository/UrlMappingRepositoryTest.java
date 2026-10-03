@@ -8,9 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("dev")
@@ -20,28 +18,20 @@ class UrlMappingRepositoryTest {
     private UrlMappingRepository urlMappingRepository;
 
     @Test
-    void shouldSaveAndFetchUrlMapping() {
+    void shouldSaveAndFetchUrlMapping(){
 
-        // Arrange
         UrlMapping urlMapping = new UrlMapping();
-        urlMapping.setLongUrl("www.google.com");
+        urlMapping.setLongUrl("www.amazon.com");
 
-        // Act - Save
-        UrlMapping savedUrlMapping =
-                urlMappingRepository.save(urlMapping);
+        UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
 
         Long generatedId = savedUrlMapping.getId();
 
-        // Act - Fetch
-        Optional<UrlMapping> fetchedUrlMapping =
-                urlMappingRepository.findById(generatedId);
+        Optional<UrlMapping> fetchedUrlMapping = urlMappingRepository.findById(generatedId);
 
-        // Assert
         assertNotNull(generatedId);
-        assertTrue(fetchedUrlMapping.isPresent());
-        assertEquals(
-                "www.google.com",
-                fetchedUrlMapping.get().getLongUrl()
-        );
+        assertFalse(fetchedUrlMapping.isEmpty());
+        assertEquals("www.amazon.com",fetchedUrlMapping.get().getLongUrl());
+
     }
 }

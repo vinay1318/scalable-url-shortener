@@ -6,6 +6,8 @@ import com.projects.url.shortener.service.repository.UrlMappingRepository;
 import com.projects.url.shortener.service.validation.UrlValidator;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class UrlService {
@@ -30,7 +32,21 @@ public class UrlService {
        UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
 
 
+   }
+
+   public String fetchLongUrl(String shortCode){
+
+
+       Optional<UrlMapping> urlMapping = urlMappingRepository.findByShortCode(shortCode);
+
+       if(urlMapping.isPresent()){
+           return urlMapping.get().getLongUrl();
+       }else{
+
+           throw new RuntimeException("Short Code not found");
+       }
 
    }
+
 
 }

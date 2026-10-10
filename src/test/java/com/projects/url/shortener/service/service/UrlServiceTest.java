@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -86,6 +87,43 @@ class UrlServiceTest {
         }
 
 
+    @Test
+    void  shouldThrowExceptionWhenUrlIsExpired() {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        UrlMapping urlMapping = new UrlMapping();
+        urlMapping.setLongUrl("www.amazon.com");
+        urlMapping.setShortCode("abc");
+        urlMapping.setExpiresAt(now.minusDays(1));
+
+        when(urlMappingRepository.findByShortCode("abc")).thenReturn(Optional.of(urlMapping));
+
+
+       assertThrows(RuntimeException.class, () -> urlService.fetchLongUrl("abc"));
+
     }
+
+    @Test
+    void shouldReturnLongUrlWhenNotExpired() {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        UrlMapping urlMapping = new UrlMapping();
+        urlMapping.setLongUrl("www.amazon.com");
+        urlMapping.setShortCode("ab");
+        urlMapping.setExpiresAt(now.plusDays(3));
+
+
+        when(urlMappingRepository.findByShortCode("ab")).thenReturn(Optional.of(urlMapping));
+
+        String url1 = urlService.fetchLongUrl("ab");
+
+        assertEquals(url1,"www.amazon.com");
+
+
+    }
+
+}
 
 

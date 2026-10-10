@@ -6,6 +6,7 @@ import com.projects.url.shortener.service.repository.UrlMappingRepository;
 import com.projects.url.shortener.service.validation.UrlValidator;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -36,13 +37,19 @@ public class UrlService {
 
    public String fetchLongUrl(String shortCode){
 
+       LocalDateTime now = LocalDateTime.now();
+
 
        Optional<UrlMapping> urlMapping = urlMappingRepository.findByShortCode(shortCode);
 
+
        if(urlMapping.isPresent()){
+           if((urlMapping.get().getExpiresAt()!=null) && !urlMapping.get().getExpiresAt().isAfter(now)){
+               throw new RuntimeException("Url is Expired");
+           }
+
            return urlMapping.get().getLongUrl();
        }else{
-
            throw new RuntimeException("Short Code not found");
        }
 

@@ -99,8 +99,10 @@ class UrlServiceTest {
 
         when(urlMappingRepository.findByShortCode("abc")).thenReturn(Optional.of(urlMapping));
 
+        RuntimeException exception = assertThrows(RuntimeException.class,() -> urlService.fetchLongUrl("abc"));
 
-       assertThrows(RuntimeException.class, () -> urlService.fetchLongUrl("abc"));
+        assertEquals("Url is Expired",exception.getMessage());
+
 
     }
 
@@ -120,6 +122,21 @@ class UrlServiceTest {
         String url1 = urlService.fetchLongUrl("ab");
 
         assertEquals(url1,"www.amazon.com");
+
+    }
+
+    @Test
+    void shouldReturnLongUrlWhenExpirationIsNull() {
+
+        UrlMapping urlMapping = new UrlMapping();
+        urlMapping.setLongUrl("www.amazon.com");
+        urlMapping.setShortCode("cb");
+
+        when(urlMappingRepository.findByShortCode("cb")).thenReturn(Optional.of(urlMapping));
+
+        String url1 = urlService.fetchLongUrl("cb");
+
+        assertEquals("www.amazon.com",url1);
 
 
     }

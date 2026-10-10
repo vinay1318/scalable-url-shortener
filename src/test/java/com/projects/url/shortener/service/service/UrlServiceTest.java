@@ -76,20 +76,16 @@ class UrlServiceTest {
     @Test
     void shouldThrowExceptionWhenShortCodeDoesNotExist() {
 
+        when(urlMappingRepository.findByShortCode("xyz"))
+                .thenReturn(Optional.empty());
 
-
-
-
-
-
-
-
-
-
-    }
-
-
-
+            assertThrows(
+                    RuntimeException.class,
+                    () -> urlService.fetchLongUrl("xyz")
+            );
+        }
 
 
     }
+
+

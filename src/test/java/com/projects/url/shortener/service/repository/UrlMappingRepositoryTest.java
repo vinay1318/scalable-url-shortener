@@ -1,6 +1,7 @@
 package com.projects.url.shortener.service.repository;
 
 import com.projects.url.shortener.service.model.UrlMapping;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ class UrlMappingRepositoryTest {
     private UrlMappingRepository urlMappingRepository;
 
     @Test
+    @Transactional
     void shouldSaveAndFetchUrlMapping(){
 
         UrlMapping urlMapping = new UrlMapping();
@@ -34,4 +36,36 @@ class UrlMappingRepositoryTest {
         assertEquals("www.amazon.com",fetchedUrlMapping.get().getLongUrl());
 
     }
+
+    @Test
+    @Transactional
+    void shouldFindUrlMappingByShortCode() {
+
+        UrlMapping urlMapping = new UrlMapping();
+        urlMapping.setLongUrl("www.google.com");
+        urlMapping.setShortCode("test39abc");
+
+        UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
+
+        Optional <UrlMapping> result = urlMappingRepository.findByShortCode("test39abc");
+
+        assertTrue(result.isPresent());
+        assertEquals("www.google.com",result.get().getLongUrl());
+
+
+    }
+
+    @Test
+    @Transactional
+    void shouldReturnEmptyWhenShortCodeDoesNotExist() {
+
+        Optional<UrlMapping> result =
+                urlMappingRepository.findByShortCode("nonexistent42");
+
+        assertTrue(result.isEmpty());
+
+
+
+    }
+
 }

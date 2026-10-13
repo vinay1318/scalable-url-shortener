@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("dev")
+@Transactional
 class UrlMappingRepositoryTest {
 
     @Autowired
     private UrlMappingRepository urlMappingRepository;
 
     @Test
-    @Transactional
     void shouldSaveAndFetchUrlMapping(){
 
         UrlMapping urlMapping = new UrlMapping();
@@ -38,7 +38,6 @@ class UrlMappingRepositoryTest {
     }
 
     @Test
-    @Transactional
     void shouldFindUrlMappingByShortCode() {
 
         UrlMapping urlMapping = new UrlMapping();
@@ -56,7 +55,6 @@ class UrlMappingRepositoryTest {
     }
 
     @Test
-    @Transactional
     void shouldReturnEmptyWhenShortCodeDoesNotExist() {
 
         Optional<UrlMapping> result =

@@ -55,5 +55,21 @@ public class UrlServiceIntegrationTest {
 
     }
 
+    @Test
+    void shouldFetchLongUrlWhenExpirationIsNull() {
+
+        UrlMapping urlMapping = new UrlMapping();
+        urlMapping.setLongUrl("www.amazon.com");
+        urlMapping.setShortCode("dummy42");
+
+        urlMappingRepository.save(urlMapping);
+
+        String url1 = urlService.fetchLongUrl("dummy42");
+
+        assertEquals("www.amazon.com",url1);
+
+
+    }
 
 }
+

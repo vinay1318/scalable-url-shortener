@@ -3,13 +3,14 @@ package com.projects.url.shortener.service.service;
 import com.projects.url.shortener.service.model.UrlMapping;
 import com.projects.url.shortener.service.repository.UrlMappingRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +29,7 @@ public class UrlServiceIntegrationTest {
     private EntityManager entityManager;
 
     @Test
-    void shouldFetchLongUrlFromDatabase(){
+    void shouldFetchLongUrlFromDatabase() {
 
         UrlMapping urlMapping = new UrlMapping();
         urlMapping.setLongUrl("www.google.com");
@@ -40,7 +41,7 @@ public class UrlServiceIntegrationTest {
         entityManager.clear();
 
         String url1 = urlService.fetchLongUrl("abc123");
-        assertEquals("www.google.com",url1);
+        assertEquals("www.google.com", url1);
 
     }
 
@@ -59,9 +60,9 @@ public class UrlServiceIntegrationTest {
         entityManager.flush();
         entityManager.clear();
 
-       RuntimeException exception =  assertThrows(RuntimeException.class,() -> urlService.fetchLongUrl("abc123"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> urlService.fetchLongUrl("abc123"));
 
-       assertEquals("Url is Expired", exception.getMessage());
+        assertEquals("Url is Expired", exception.getMessage());
 
     }
 
@@ -79,23 +80,24 @@ public class UrlServiceIntegrationTest {
 
         String url1 = urlService.fetchLongUrl("dummy42");
 
-        assertEquals("www.amazon.com",url1);
+        assertEquals("www.amazon.com", url1);
 
     }
 
     @Test
     void shouldThrowExceptionWhenShortCodeDoesNotExist() {
 
+        String missingShortCode =
+                UUID.randomUUID().toString().substring(0, 12);
+
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> urlService.fetchLongUrl("nonexistent42")
+                () -> urlService.fetchLongUrl(missingShortCode)
         );
 
         assertEquals("Short Code not found", exception.getMessage());
+
+
     }
 
-
-
-
 }
-

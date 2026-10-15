@@ -2,6 +2,7 @@ package com.projects.url.shortener.service.service;
 
 import com.projects.url.shortener.service.model.UrlMapping;
 import com.projects.url.shortener.service.repository.UrlMappingRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class UrlServiceIntegrationTest {
     @Autowired
     private UrlMappingRepository urlMappingRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @Test
     void shouldFetchLongUrlFromDatabase(){
 
@@ -31,6 +35,9 @@ public class UrlServiceIntegrationTest {
         urlMapping.setShortCode("abc123");
 
         urlMappingRepository.save(urlMapping);
+
+        entityManager.flush();
+        entityManager.clear();
 
         String url1 = urlService.fetchLongUrl("abc123");
         assertEquals("www.google.com",url1);
@@ -49,6 +56,9 @@ public class UrlServiceIntegrationTest {
 
         urlMappingRepository.save(urlMapping);
 
+        entityManager.flush();
+        entityManager.clear();
+
        RuntimeException exception =  assertThrows(RuntimeException.class,() -> urlService.fetchLongUrl("abc123"));
 
        assertEquals("Url is Expired", exception.getMessage());
@@ -64,12 +74,28 @@ public class UrlServiceIntegrationTest {
 
         urlMappingRepository.save(urlMapping);
 
+        entityManager.flush();
+        entityManager.clear();
+
         String url1 = urlService.fetchLongUrl("dummy42");
 
         assertEquals("www.amazon.com",url1);
 
-
     }
+
+    @Test
+    void shouldThrowExceptionWhenShortCodeDoesNotExist() {
+
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> urlService.fetchLongUrl("nonexistent42")
+        );
+
+        assertEquals("Short Code not found", exception.getMessage());
+    }
+
+
+
 
 }
 

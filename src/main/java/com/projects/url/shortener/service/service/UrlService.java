@@ -27,7 +27,7 @@ public class UrlService {
    }
 
    @Transactional
-   public void createShortUrl(String longUrl){
+   public String createShortUrl(String longUrl){
 
        UrlMapping urlMapping = new UrlMapping();
 
@@ -45,6 +45,8 @@ public class UrlService {
        savedUrlMapping.setShortCode(generatedShortCode);
 
        urlMappingRepository.save(savedUrlMapping);
+
+       return generatedShortCode;
 
 
    }

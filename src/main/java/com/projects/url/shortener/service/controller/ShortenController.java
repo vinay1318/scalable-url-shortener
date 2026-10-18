@@ -1,5 +1,6 @@
 package com.projects.url.shortener.service.controller;
 
+import com.projects.url.shortener.service.dto.ShortenUrlResponse;
 import com.projects.url.shortener.service.service.UrlService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +16,17 @@ public class ShortenController {
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<String> createShortUrl(@RequestBody String url){
+    public ResponseEntity<ShortenUrlResponse> createShortUrl(@RequestBody String url){
 
-        urlService.createShortUrl(url);
+       String shortCode = urlService.createShortUrl(url);
 
-        return ResponseEntity.ok("URL Processed");
+        ShortenUrlResponse response = new ShortenUrlResponse();
+
+        response.setShortCode(shortCode);
+
+        response.setShortUrl("http://localhost:8080/" + shortCode);
+
+        return ResponseEntity.ok(response);
 
     }
 

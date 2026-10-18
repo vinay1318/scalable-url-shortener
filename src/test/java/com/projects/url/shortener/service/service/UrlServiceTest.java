@@ -21,6 +21,8 @@ class UrlServiceTest {
     private UrlMappingRepository urlMappingRepository;
     private UrlService urlService;
 
+    private Base62Encoder base62Encoder;
+
     @BeforeEach
     void setUp() {
 
@@ -29,8 +31,10 @@ class UrlServiceTest {
         urlMappingRepository =
                 Mockito.mock(UrlMappingRepository.class);
 
+        base62Encoder = Mockito.mock(Base62Encoder.class);
+
         urlService =
-                new UrlService(urlValidator, urlMappingRepository);
+                new UrlService(urlValidator, urlMappingRepository,base62Encoder);
 
     }
 

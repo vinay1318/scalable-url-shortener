@@ -5,6 +5,7 @@ import com.projects.url.shortener.service.model.UrlMapping;
 import com.projects.url.shortener.service.repository.UrlMappingRepository;
 import com.projects.url.shortener.service.validation.UrlValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -17,10 +18,15 @@ public class UrlService {
 
    private final UrlMappingRepository urlMappingRepository;
 
-   public UrlService(UrlValidator urlValidator,UrlMappingRepository urlMappingRepository) {
+   private final Base62Encoder encode;
+
+   public UrlService(UrlValidator urlValidator,UrlMappingRepository urlMappingRepository,Base62Encoder encode) {
            this.urlValidator = urlValidator;
            this.urlMappingRepository = urlMappingRepository;
+           this.encode = encode;
    }
+
+   @Transactional
    public void createShortUrl(String longUrl){
 
        UrlMapping urlMapping = new UrlMapping();
@@ -31,6 +37,14 @@ public class UrlService {
 
        urlMapping.setLongUrl(longUrl);
        UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
+
+       Long generatedId = savedUrlMapping.getId();
+
+       String generatedShortCode = encode.base62Encoder(generatedId);
+
+       savedUrlMapping.setShortCode(generatedShortCode);
+
+       urlMappingRepository.save(savedUrlMapping);
 
 
    }

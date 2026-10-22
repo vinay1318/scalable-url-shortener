@@ -1,7 +1,9 @@
 package com.projects.url.shortener.service.controller;
 
+import com.projects.url.shortener.service.dto.ShortenRequest;
 import com.projects.url.shortener.service.dto.ShortenUrlResponse;
 import com.projects.url.shortener.service.service.UrlService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +18,11 @@ public class ShortenController {
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<ShortenUrlResponse> createShortUrl(@RequestBody String url){
+    public ResponseEntity<ShortenUrlResponse> createShortUrl(@Valid @RequestBody ShortenRequest request){
 
-       String shortCode = urlService.createShortUrl(url);
+        String url = request.originalUrl();
+
+        String shortCode = urlService.createShortUrl(url);
 
         ShortenUrlResponse response = new ShortenUrlResponse();
 

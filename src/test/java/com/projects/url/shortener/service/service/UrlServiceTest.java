@@ -47,21 +47,33 @@ class UrlServiceTest {
         when(urlValidator.isValidUrl(longUrl))
                 .thenReturn(true);
 
+        when(urlMappingRepository.save(
+                Mockito.any(UrlMapping.class)))
+                .thenAnswer(invocation -> {
+                    UrlMapping mapping = invocation.getArgument(0);
+                    mapping.setId(10L);
+                    return mapping;
+                });
+
+        when(base62Encoder.base62Encoder(10L))
+                .thenReturn("a");
+
         // Act
-        urlService.createShortUrl(longUrl);
+        String result = urlService.createShortUrl(longUrl);
 
         // Assert
         ArgumentCaptor<UrlMapping> captor =
                 ArgumentCaptor.forClass(UrlMapping.class);
 
-        verify(urlMappingRepository).save(captor.capture());
+        verify(urlMappingRepository, Mockito.times(2))
+                .save(captor.capture());
 
         UrlMapping savedMapping = captor.getValue();
 
         assertEquals(longUrl, savedMapping.getLongUrl());
-
+        assertEquals("a", savedMapping.getShortCode());
+        assertEquals("a", result);
     }
-
 
     @Test
     void shouldReturnLongUrlWhenShortCodeExists() {

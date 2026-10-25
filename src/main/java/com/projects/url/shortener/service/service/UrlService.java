@@ -1,5 +1,6 @@
 package com.projects.url.shortener.service.service;
 
+import com.projects.url.shortener.service.exception.IdempotencyConflictException;
 import com.projects.url.shortener.service.exception.InvalidUrlException;
 import com.projects.url.shortener.service.model.UrlMapping;
 import com.projects.url.shortener.service.repository.UrlMappingRepository;
@@ -29,24 +30,35 @@ public class UrlService {
    @Transactional
    public String createShortUrl(String longUrl,String idempotencyKey){
 
-       Optional<UrlMapping> existing_record = urlMappingRepository.findByIdempotencyKey(idempotencyKey);
-
-       if(existing_record.isPresent()){
-
-           return existing_record.get().getShortCode();
+       if (idempotencyKey == null || idempotencyKey.isBlank()
+               || idempotencyKey.length() > 128) {
+           throw new IllegalArgumentException("Invalid idempotency key");
        }
-
-       UrlMapping urlMapping = new UrlMapping();
 
        if(!urlValidator.isValidUrl(longUrl)){
            throw new InvalidUrlException("Please enter a valid url");
        }
 
-       if(idempotencyKey!=null){
-           urlMapping.setIdempotencyKey(idempotencyKey);
+       Optional<UrlMapping> existing_record =
+               urlMappingRepository.findByIdempotencyKey(idempotencyKey);
+
+       if (existing_record.isPresent()) {
+
+           UrlMapping existingMapping = existing_record.get();
+
+           if (existingMapping.getLongUrl().equals(longUrl)) {
+               return existingMapping.getShortCode();
+           }
+
+           throw new IdempotencyConflictException(
+                   "Idempotency key already used for a different URL"
+           );
        }
 
+       UrlMapping urlMapping = new UrlMapping();
+
        urlMapping.setLongUrl(longUrl);
+       urlMapping.setIdempotencyKey(idempotencyKey);
        UrlMapping savedUrlMapping = urlMappingRepository.save(urlMapping);
 
        Long generatedId = savedUrlMapping.getId();

@@ -3,6 +3,7 @@ package com.projects.url.shortener.service.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -60,6 +61,50 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(response);
     }
+
+    @ExceptionHandler(IdempotencyConflictException.class)
+    public ResponseEntity<Map<String, Object>> handleConflictingUrls(
+            IdempotencyConflictException exception) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status",HttpStatus.CONFLICT.value());
+        response.put("error","Conflict");
+        response.put("message",exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<Map<String, Object>> handleMissingHeaders(MissingRequestHeaderException exception){
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status",HttpStatus.BAD_REQUEST.value());
+        response.put("error","Bad Request");
+        response.put("message",exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidArgument(IllegalArgumentException exception){
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status",HttpStatus.BAD_REQUEST.value());
+        response.put("error","Bad Request");
+        response.put("message",exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+
+    }
+
+
+
+
 
 
 

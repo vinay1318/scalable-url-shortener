@@ -27,12 +27,23 @@ public class UrlService {
    }
 
    @Transactional
-   public String createShortUrl(String longUrl){
+   public String createShortUrl(String longUrl,String idempotencyKey){
+
+       Optional<UrlMapping> existing_record = urlMappingRepository.findByIdempotencyKey(idempotencyKey);
+
+       if(existing_record.isPresent()){
+
+           return existing_record.get().getShortCode();
+       }
 
        UrlMapping urlMapping = new UrlMapping();
 
        if(!urlValidator.isValidUrl(longUrl)){
            throw new InvalidUrlException("Please enter a valid url");
+       }
+
+       if(idempotencyKey!=null){
+           urlMapping.setIdempotencyKey(idempotencyKey);
        }
 
        urlMapping.setLongUrl(longUrl);

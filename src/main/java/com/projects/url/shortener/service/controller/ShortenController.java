@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,11 +19,11 @@ public class ShortenController {
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<ShortenUrlResponse> createShortUrl(@Valid @RequestBody ShortenRequest request){
+    public ResponseEntity<ShortenUrlResponse> createShortUrl(@Valid @RequestBody ShortenRequest request, @RequestHeader(value = "idempotency-key",required = false) String idempotencyKey){
 
         String url = request.originalUrl();
 
-        String shortCode = urlService.createShortUrl(url);
+        String shortCode = urlService.createShortUrl(url,idempotencyKey);
 
         ShortenUrlResponse response = new ShortenUrlResponse();
 

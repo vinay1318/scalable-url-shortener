@@ -28,4 +28,7 @@ public class UrlMapping {
 
     @Column(name = "updated_at", insertable = false, updatable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "idempotency_key", unique = true, length = 128)
+    private String idempotencyKey;
 }
